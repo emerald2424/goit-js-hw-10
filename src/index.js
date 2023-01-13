@@ -51,8 +51,11 @@ function createCountryInfoMarkup(arr) {
         capital, 
         population, 
         flags: { svg }, 
-        languages}) => `<img src=${svg} alt="flag of ${name}" width="40">
-        <h2>${name}</h2>
+        languages}) => 
+        `<div class="country-title">
+            <img src=${svg} alt="flag of ${name}" width="40">
+            <h2>${name}</h2>
+        </div>
         <p><span>Capital: </span>${capital}</p>
         <p><span>Population: </span>${population}</p>
         <p><span>Languages: </span>${Object.values(languages).join(', ')}</p>`).join('');
@@ -60,12 +63,10 @@ function createCountryInfoMarkup(arr) {
         //Styles
         const span = document.querySelectorAll('span');
         span.forEach(p => p.style.fontWeight = '700');
-        const countries = document.querySelectorAll('h2');
-        countries.forEach(country => {
-            country.style.display = 'inline-flex';
-            country.style.alignSelf = 'center';
-            country.style.marginLeft = '20px';
-        });    
+        const countryTitle = document.querySelector('.country-title');
+        countryTitle.style.display = 'flex';
+        countryTitle.style.gap = '20px';
+        countryTitle.style.alignItems = 'center';    
         
 }
 
