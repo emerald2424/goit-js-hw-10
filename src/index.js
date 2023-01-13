@@ -3,10 +3,10 @@ import debounce from 'lodash.debounce';
 import Notiflix from 'notiflix';
 import "notiflix/dist/notiflix-3.2.5.min.css";
 
-import {fetchCountries} from './fetchCountries.js';
+import { fetchCountries } from './fetchCountries.js';
 
 
-const DEBOUNCE_DELAY = 500;
+const DEBOUNCE_DELAY = 300;
 
 
 const countryList = document.querySelector('.country-list');
@@ -19,19 +19,21 @@ input.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY));
 
 function onSearch(evt) {
     evt.preventDefault();
+    clearMarkup();
     
     const countryName = input.value.trim();
-    
+        
     if(!countryName) {
-        clearMarkup;
+        
         return Notiflix.Notify.info("Enter the name of the country, please.")
     }
+
     
+
     fetchCountries(countryName)
     .then(data => {
         if (data.length > 10) {
-                clearMarkup();
-        Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
+            Notiflix.Notify.info("Too many matches found. Please enter a more specific name.");
         }
             
         if (data.length === 1) {
@@ -46,7 +48,6 @@ function onSearch(evt) {
 }
 
 function createCountryInfoMarkup(arr) {
-    clearMarkup ();
     countryInfo.innerHTML = arr.map(({name: { official: name }, 
         capital, 
         population, 
@@ -71,7 +72,6 @@ function createCountryInfoMarkup(arr) {
 }
 
 function createCountryListMarkup(arr) {
-    clearMarkup ();
     countryList.innerHTML = arr.map(({name: { official: name }, 
         flags: { svg }}) => `<li>
         <img src=${svg} alt="flag of ${name}" width="40" height="auto">
@@ -92,7 +92,7 @@ function createCountryListMarkup(arr) {
     });    
 }
 
-function clearMarkup () {
+function clearMarkup() {
     countryList.innerHTML = '';
     countryInfo.innerHTML = '';
 }
